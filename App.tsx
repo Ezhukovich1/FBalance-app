@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { AppState} from 'react-native';
-import { useAppStore } from './store/AppStore';
-import { Box, Center, NativeBaseProvider } from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {AppState} from 'react-native';
+import {useAppStore} from './store/AppStore';
+import {Box, Center, NativeBaseProvider} from 'native-base';
 import RootNavigator from './navigations/RootNavigator';
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {theme} from './theme/theme';
+import {onlineManager, QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {queries: {retry: 2}},
+});
 
 export default function App() {
   const {onAppActive, onAppBackground, onBeforeStart} = useAppStore(state => ({
@@ -39,12 +45,14 @@ export default function App() {
     };
   }, [onAppActive, onAppBackground]);
   return (
-    <NativeBaseProvider>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
-      </SafeAreaProvider>
+    <NativeBaseProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </QueryClientProvider>
     </NativeBaseProvider>
   );
 }

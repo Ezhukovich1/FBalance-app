@@ -1,8 +1,8 @@
 
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-// import {useDiscoverModeStore} from "../stores/DiscoverModeStore";
-// import {useAppStore} from "../stores/AppStore";
+import {useAppStore} from "../store/AppStore";
+import LoggedInNavigator from "./LoggedInNavigator";
 import LoggedOutNavigator from "./LoggedOutNavigator";
 
 
@@ -14,18 +14,22 @@ type AuthNavParamList =
 };
 
 const RootNavigator: React.FC = () => {
-//   const isLoggedIn = useAppStore(state => state.isLoggedIn());
-//   const isFakeLogin = useDiscoverModeStore(state => state.discoverMode);
+  const isLoggedIn = useAppStore(state => state.isLoggedIn());
 
   const Stack = createStackNavigator<AuthNavParamList>();
 
   return (
     <Stack.Navigator>
-      <Stack.Screen
+      {isLoggedIn ? <Stack.Screen
+        name="LoggedIn"
+        component={LoggedInNavigator}
+        options={{animationEnabled: false, headerShown: false}}
+      /> : <Stack.Screen
         name="LoggedOut"
         component={LoggedOutNavigator}
         options={{animationEnabled: false, headerShown: false}}
-      />
+      />}
+      
     </Stack.Navigator>
   );
 };

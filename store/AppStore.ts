@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {create} from "zustand";
+import { User } from "../models/User";
 
 const ACCESS_TOKEN_KEY = "@accessToken";
 const REFRESH_TOKEN_KEY = "@refreshToken";
@@ -17,6 +18,11 @@ interface AppStore {
   onAppBackground: () => Promise<void>;
 
   accessToken?: string;
+
+  user?: User;
+
+  saveToken: (v: string) => void;
+  saveUser: (u: User) => void;
 
   refreshToken?: string;
 
@@ -72,4 +78,10 @@ export const useAppStore = create<AppStore>((set, get) => ({
 
     AsyncStorage.setItem(ACCESS_TOKEN_KEY, token);
   },
+
+  saveUser: (user) => {
+    set({user});
+  },
+
+  
 }));
