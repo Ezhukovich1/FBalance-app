@@ -3,14 +3,20 @@ import React, {useState} from "react";
 import {CustomButon} from "../../../components/CustomButton";
 import {CustomInput} from "../../../components/CustomInput";
 
-export const LoginForm = () => {
+type Props = React.ComponentProps <typeof Box> & {
+  onPress: ({username, password}: {username: string; password: string}) => void;
+};
+
+export const LoginForm: React.FC<Props> = ({onPress, ...rest}) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [errors, setErrors] = React.useState([]);
 
+  const onLogin = () => {
+    onPress({username, password});
+  };
 
-  return <Box alignItems={"center"}>
-      <Text color={"text.600"} fontWeight={600} fontSize={"lg"}>Login</Text>
+  return <Box {...rest}>
       <VStack space={3}>
         <CustomInput
           value={username || ""}
@@ -32,9 +38,10 @@ export const LoginForm = () => {
             errorText: "error",
             key: "password",
           }}
+          inputProps={{type: "password", autoCapitalize: "none"}}
           errorObj={{errors, setErrors}}
         />
-        <CustomButon title="Sign in" onPress={() => {}} mt={5} />
+        <CustomButon title="Login" onPress={onLogin} mt={5} />
       </VStack>
     </Box>
 };

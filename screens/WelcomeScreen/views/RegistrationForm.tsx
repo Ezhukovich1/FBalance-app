@@ -3,20 +3,24 @@ import React, {useState} from "react";
 import {CustomButon} from "../../../components/CustomButton";
 import {CustomInput} from "../../../components/CustomInput";
 
-export const RegistrationForm = ({onPress}) => {
+type Props = React.ComponentProps <typeof Box> & {
+  onPress: ({username, password, phone}: {username: string; password: string; phone: string}) => void;
+};
+
+export const RegistrationForm: React.FC<Props> = ({onPress, ...rest}) => {
   const [phone, setPhone] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [errors, setErrors] = React.useState([]);
 
-  const onRegister = async () => {
-    await onPress({phone,username, password})
+  const onRegister = () => {
+    onPress({phone,username, password})
   };
 
-  return <Box alignItems={"center"}>
-      <Text color={"text.600"} fontWeight={600} fontSize={"lg"}>Registration</Text>
+  return <Box {...rest}>
       <VStack space={3}>
         <CustomInput
+          width={"100%"}
           value={phone || ""}
           label={"Phone"}
           onChange={text => setPhone(text)}
@@ -26,6 +30,7 @@ export const RegistrationForm = ({onPress}) => {
             key: "phone",
           }}
           errorObj={{errors, setErrors}}
+          inputProps={{keyboardType: "phone-pad"}}
         />
         <CustomInput
           value={username || ""}
@@ -48,6 +53,7 @@ export const RegistrationForm = ({onPress}) => {
             key: "password",
           }}
           errorObj={{errors, setErrors}}
+          inputProps={{type: "password", autoCapitalize: "none"}}
         />
         <CustomButon title="Sign in" onPress={onRegister} mt={5} />
       </VStack>

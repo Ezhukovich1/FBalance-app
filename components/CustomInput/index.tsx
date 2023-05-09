@@ -11,26 +11,29 @@ type ErrorObj = {
   errors: string[];
   setErrors: any;
 };
+
+type InputProps = React.ComponentProps <typeof Input>;
+
 type Props = React.ComponentProps<typeof Box> & {
   onChange: (value: string) => void;
   label: string;
   labelStyles?: any;
-  isRequired?: boolean;
   isDisabled?: boolean;
   value: string;
   validationObj: ValidationObject;
   errorObj: ErrorObj;
+  inputProps?: InputProps;
 };
 
 export const CustomInput: React.FC<Props> = ({
   onChange,
   label,
   value,
-  isRequired = false,
   isDisabled = false,
   validationObj,
   errorObj,
   labelStyles,
+  inputProps,
   ...rest
 }) => {
   const [_value, _setValue] = React.useState("");
@@ -61,7 +64,6 @@ export const CustomInput: React.FC<Props> = ({
     <Box position={"relative"} {...rest}>
       <Text mb={2} fontWeight={"500"} fontSize={"2xs"} color={"helper.500"} {...labelStyles}>
         {label}
-        {isRequired && "*"}
       </Text>
       <Box
         backgroundColor={"white"}
@@ -78,6 +80,7 @@ export const CustomInput: React.FC<Props> = ({
           value={value}
           onChangeText={nativeOnChange}
           onBlur={onBlur}
+          {...inputProps}
         />
       </Box>
       {isError && (

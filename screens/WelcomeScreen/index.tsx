@@ -1,22 +1,36 @@
-import {Box, Center, Text, VStack} from "native-base";
+import {Box, Center, HStack, Input, Text, VStack} from "native-base";
 import React, {useState} from "react";
 import {CustomButon} from "../../components/CustomButton";
 import {CustomInput} from "../../components/CustomInput";
 import {Wrapper} from "../../components/Wrapper";
-import { useRegistration } from "../../networking/auth.hooks";
-import { LoginForm } from "./views/LoginForm";
-import { RegistrationForm } from "./views/RegistrationForm";
+import {useLogin, useRegistration} from "../../networking/auth.hooks";
+import {LoginForm} from "./views/LoginForm";
+import {RegistrationForm} from "./views/RegistrationForm";
 
 const WelcomeScreen = () => {
-  const [indexView, setIndexView] = React.useState(1);
-  const [phone, setPhone] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [errors, setErrors] = React.useState([]);
+  const [indexView, setIndexView] = React.useState(0);
 
   const {mutate: register} = useRegistration({});
+  const {mutate: login} = useLogin({});
 
-  return <Wrapper safeArea justifyContent={"center"} alignItems={"center"}>
-    {indexView === 0 ? <LoginForm /> : <RegistrationForm onPress={register} />}
+  return <Wrapper safeArea alignItems={"center"} justifyContent={"center"}>
+    <HStack width={"100%"}justifyContent={"center"}>
+      <CustomButon
+        width={140}
+        backgroundColor={"transparent"} 
+        title="Login"
+        textProps={{color: indexView === 0 ? "white": "text.600"}}
+        onPress={() => setIndexView(0)} 
+      />
+      <CustomButon
+        width={140}
+        backgroundColor={"transparent"}
+        title="Registration"
+        textProps={{color: indexView === 1 ? "white": "text.600"}}
+        onPress={() => setIndexView(1)} 
+      />
+    </HStack>
+    {indexView === 0 ? <LoginForm onPress={login} /> : <RegistrationForm onPress={register} />}
   </Wrapper>
 };
 
