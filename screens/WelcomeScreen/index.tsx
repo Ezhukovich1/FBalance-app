@@ -1,4 +1,4 @@
-import {Box, Center, HStack, Input, Text, VStack} from "native-base";
+import {Box, Center, HStack, Input, Text, useToast, VStack} from "native-base";
 import React, {useState} from "react";
 import {CustomButon} from "../../components/CustomButton";
 import {CustomInput} from "../../components/CustomInput";
@@ -9,9 +9,18 @@ import {RegistrationForm} from "./views/RegistrationForm";
 
 const WelcomeScreen = () => {
   const [indexView, setIndexView] = React.useState(0);
+  const toast = useToast();
 
-  const {mutate: register} = useRegistration({});
-  const {mutate: login} = useLogin({});
+  const {mutate: register} = useRegistration({
+    onError: (error) => {
+      toast.show({placement: "top", backgroundColor: "error.600", title: error.message});
+    }
+  });
+  const {mutate: login} = useLogin({
+    onError: (error) => {
+      toast.show({placement: "top", backgroundColor: "error.600", title: error.message});
+    }
+  });
 
   return <Wrapper safeArea alignItems={"center"} justifyContent={"center"}>
     <HStack width={"100%"}justifyContent={"center"}>

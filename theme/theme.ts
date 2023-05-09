@@ -21,6 +21,9 @@ export const theme = extendTheme({
       200: "#DAFFDE",
       600: "#00940F",
     },
+    error: {
+      600: "red"
+    },
   },
 });
 
