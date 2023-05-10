@@ -2,6 +2,7 @@ import {Box, Center, Text, VStack} from "native-base";
 import React, {useState} from "react";
 import {CustomButon} from "../../../components/CustomButton";
 import {CustomInput} from "../../../components/CustomInput";
+import i18n from "../../../i18n/i18n";
 
 type Props = React.ComponentProps <typeof Box> & {
   onPress: ({username, password}: {username: string; password: string}) => void;
@@ -25,7 +26,7 @@ export const LoginForm: React.FC<Props> = ({onPress, ...rest}) => {
           validationObj={{
             validation: () => true,
             errorText: "error",
-            key: "phone",
+            key: "username",
           }}
           errorObj={{errors, setErrors}}
         />
@@ -41,7 +42,7 @@ export const LoginForm: React.FC<Props> = ({onPress, ...rest}) => {
           inputProps={{type: "password", autoCapitalize: "none"}}
           errorObj={{errors, setErrors}}
         />
-        <CustomButon title="Login" onPress={onLogin} mt={5} />
+        <CustomButon title={i18n.t("login")} onPress={onLogin} mt={5} />
       </VStack>
     </Box>
 };

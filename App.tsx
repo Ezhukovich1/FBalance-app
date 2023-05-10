@@ -7,10 +7,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {theme} from './theme/theme';
 import {onlineManager, QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {I18n} from 'i18n-js';
 
 const queryClient = new QueryClient({
   defaultOptions: {queries: {retry: 2}},
 });
+
 
 export default function App() {
   const {onAppActive, onAppBackground, onBeforeStart} = useAppStore(state => ({

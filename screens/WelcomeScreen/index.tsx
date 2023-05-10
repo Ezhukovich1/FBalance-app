@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {CustomButon} from "../../components/CustomButton";
 import {CustomInput} from "../../components/CustomInput";
 import {Wrapper} from "../../components/Wrapper";
+import i18n from "../../i18n/i18n";
 import {useLogin, useRegistration} from "../../networking/auth.hooks";
 import {LoginForm} from "./views/LoginForm";
 import {RegistrationForm} from "./views/RegistrationForm";
@@ -27,14 +28,14 @@ const WelcomeScreen = () => {
       <CustomButon
         width={140}
         backgroundColor={"transparent"} 
-        title="Login"
+        title={i18n.t("login")}
         textProps={{color: indexView === 0 ? "white": "text.600"}}
         onPress={() => setIndexView(0)} 
       />
       <CustomButon
         width={140}
         backgroundColor={"transparent"}
-        title="Registration"
+        title={i18n.t("registration")}
         textProps={{color: indexView === 1 ? "white": "text.600"}}
         onPress={() => setIndexView(1)} 
       />
